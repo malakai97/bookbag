@@ -1,5 +1,4 @@
 require "bookbag/version"
-
-module Bookbag
-  # Your code goes here...
-end
+require "bookbag/settings"
+require "bookbag/builder"
+require "bookbag/dpn_info_txt"
