@@ -1,27 +1,55 @@
 #!/usr/bin/env ruby
 
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require "bookbag"
 require "optparse"
 
 options = {}
 opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: bookbag [OPTIONS]"
-  opt.separator ""
-  opt.on "-v", "--volume=NAMESPACE.ID", "Supply the volume's namespace and id." do |volume|
+  opt.on "-v", "--volume=NAMESPACE.ID",
+         "The volume's namespace and id." do |volume|
     options[:namespace], options[:id] = volume.split(".")
   end
-  opt.on "-t", "--type=data|rights|interpetive", "The type of bag to create, probably data." do |type|
-    options[:type] = type
+  opt.on "-t", "--type=TYPE", [:data, :rights, :interpretive],
+         "The type of bag to create (data, rights, interpretive)." do |type|
+    options[:type] = type.to_sym
   end
-  opt.on "-l", "--location=PATH", "Path to the volume's directory." do |location|
+  opt.on "-l", "--location=PATH",
+         "Path to the volume's directory." do |location|
     options[:location] = location
   end
-  opt.on "-r", "--rights=UUID1,UUID2,UUID3", Array, "Rights uuids separated by commas." do |list|
+  opt.on "-r", "--rights=UUID1,UUID2,UUID3", Array,
+         "Rights uuids separated by commas." do |list|
     options[:rights] = list
   end
-  opt.on "-i", "--interpretive=UUID1,UUID2,UUID3", Array, "Interpretive uuids separated by commas." do |list|
+  opt.on "-i", "--interpretive=[UUIDS]", Array,
+         "Interpretive uuids separated by commas." do |list|
     options[:interpretive] = list
+  end
+  opt.on "-o", "--output=DIR",
+         "Output directory under which bag will be created." do |output_dir|
+    options[:output_dir] = output_dir
+  end
+  opt.on_tail("-h", "--help", "Show this message") do
+    puts opt
+    exit
   end
 end
 
 opt_parser.parse!
+
+[:namespace, :id, :type, :location, :output_dir].each do |key|
+  raise ArgumentError, "#{key} is required" unless options[key]
+end
+
+if options[:type] == :data
+  [:rights, :interpretive].each do |key|
+    raise ArgumentError, "#{key} is required" unless options[key] && options[key].size > 0
+  end
+end
+
+
+builder = Bookbag::Builder.new(options[:output_dir])
+builder.build(options)
+puts "Done!"
