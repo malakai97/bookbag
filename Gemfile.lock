@@ -10,7 +10,12 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    configliere (0.4.22)
+      highline (= 1.5.2)
+      multi_json (~> 1.10.1)
     docopt (0.5.0)
+    highline (1.5.2)
+    multi_json (1.10.1)
     validatable (1.6.7)
 
 PLATFORMS
@@ -18,6 +23,7 @@ PLATFORMS
 
 DEPENDENCIES
   bagit!
+  configliere
 
 BUNDLED WITH
    1.10.6
