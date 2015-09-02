@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/malakai97/bagit.git
-  revision: 45fcdb5611fce1b2b07bf68d055098096e705e2e
+  revision: 0d2054070749481f2ff0d1b61d95aea1ec3c961a
+  branch: break_for_ht
   specs:
     bagit (0.3.3)
       docopt (~> 0.5.0)
