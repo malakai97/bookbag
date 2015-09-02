@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "bookbag"
+require "optparse"
+
+options = {}
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: bookbag [OPTIONS]"
+  opt.separator ""
+  opt.on "-v", "--volume=NAMESPACE.ID", "Supply the volume's namespace and id." do |volume|
+    options[:namespace], options[:id] = volume.split(".")
+  end
+  opt.on "-t", "--type=data|rights|interpetive", "The type of bag to create, probably data." do |type|
+    options[:type] = type
+  end
+  opt.on "-l", "--location=PATH", "Path to the volume's directory." do |location|
+    options[:location] = location
+  end
+  opt.on "-r", "--rights=UUID1,UUID2,UUID3", Array, "Rights uuids separated by commas." do |list|
+    options[:rights] = list
+  end
+  opt.on "-i", "--interpretive=UUID1,UUID2,UUID3", Array, "Interpretive uuids separated by commas." do |list|
+    options[:interpretive] = list
+  end
+end
+
+opt_parser.parse!
