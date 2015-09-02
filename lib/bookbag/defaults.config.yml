@@ -1,0 +1,55 @@
+:bag:
+  :dpn_dir: dpn-tags
+  :dpn_info:
+    :name: dpn-info.txt
+    :non_arrays:
+      - dpnObjectID
+      - localName
+      - ingestNodeName
+      - ingestNodeAddress
+      - ingestNodeContactName
+      - ingestNodeContactEmail
+      - version
+      - firstVersionObjectID
+      - bagTypeName
+    :arrays:
+      - rightsObjectIDs
+      - interpretiveObjectIDs
+    :capture: "\\:[ \t]*(.*)"
+    :dpnObjectID:
+      :name: DPN-Object-ID
+      :regex: DPN-Object-ID
+    :localName:
+      :name: Local-ID
+      :regex: Local-ID
+    :ingestNodeName:
+      :name: Ingest-Node-Name
+      :default: "Test Node"
+      :regex: Ingest-Node-Name
+    :ingestNodeAddress:
+      :name: Ingest-Node-Address
+      :default: "Test Node Address"
+      :regex: Ingest-Node-Address
+    :ingestNodeContactName:
+      :name: Ingest-Node-Contact-Name
+      :default: "John Doe"
+      :regex: Ingest-Node-Contact-Name
+    :ingestNodeContactEmail:
+      :name: Ingest-Node-Contact-Email
+      :default: john.doe@testnode.org
+      :regex: Ingest-Node-Contact-Email
+    :version:
+      :name: Version-Number
+      :regex: Version-Number
+    :firstVersionObjectID:
+      :name: First-Version-Object-ID
+      :regex: First-Version-Object-ID
+    :bagTypeName:
+      :name: Bag-Type
+      :regex: Bag-Type
+    :interpretiveObjectIDs:
+      :name: Interpretive-Object-ID
+      :regex: Interpretive-Object-ID
+    :rightsObjectIDs:
+      :name: Rights-Object-ID
+      :regex: Rights-Object-ID
