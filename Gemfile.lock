@@ -1,0 +1,22 @@
+GIT
+  remote: https://github.com/malakai97/bagit.git
+  revision: 45fcdb5611fce1b2b07bf68d055098096e705e2e
+  specs:
+    bagit (0.3.3)
+      docopt (~> 0.5.0)
+      validatable (~> 1.6)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    docopt (0.5.0)
+    validatable (1.6.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bagit!
+
+BUNDLED WITH
+   1.10.6
