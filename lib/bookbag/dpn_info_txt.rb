@@ -20,13 +20,13 @@ module BookBag
     #   @option opts [Array<String>] :rightsObjectIDs
     def initialize(opts)
       @settings = DPN::Bagit::Settings.instance.config
-      @dpnInfoKeysArrays = @settings[:bag][:dpn_info][:arrays]
-      @dpnInfoKeysNonArrays = @settings[:bag][:dpn_info][:non_arrays]
-      @dpnInfoErrors = []
-      @dpnInfo = {}
-      (@dpnInfoKeysNonArrays + @dpnInfoKeysArrays).each do |key|
+      @array_keys = @settings[:bag][:dpn_info][:arrays]
+      @non_array_keys = @settings[:bag][:dpn_info][:non_arrays]
+      @errors = []
+      @info = {}
+      (@non_array_keys + @array_keys).each do |key|
         key = key.to_sym
-        @dpnInfo[key] = opts[key]
+        @info[key] = opts[key]
       end
     end
 
@@ -35,15 +35,15 @@ module BookBag
     def to_s
       raise RuntimeError, "invalid dpn info txt!" unless valid?
       out = []
-      @dpnInfoKeysNonArrays.each_key do |key|
+      @non_array_keys.each do |key|
         key = key.to_sym
         name = @settings[:bag][:dpn_info][key][:name]
-        out << "#{name}: #{@dpnInfo[key]}"
+        out << "#{name}: #{@info[key]}"
       end
-      @dpnInfoKeysArrays.each_key do |key|
+      @array_keys.each do |key|
         key = key.to_sym
         name = @settings[:bag][:dpn_info][key][:name]
-        @dpnInfo[key].each do |value|
+        @info[key].each do |value|
           out << "#{name}: #{value}"
         end
       end
@@ -54,21 +54,21 @@ module BookBag
     # Check for validity
     # @return [Boolean]
     def valid?
-      return @dpnInfoErrors.empty?
+      return errors.empty?
     end
 
 
     # Returns a list of any errors encountered on creation and validation.
     # @return [Array<String]
-    def getErrors()
-      return @dpnInfoErrors
+    def errors
+      return @errors
     end
 
 
     # Get the value associated with the given field.
     # @param key [Symbol]
     def [](key)
-      return @dpnInfo[key.to_sym]
+      return @info[key.to_sym]
     end
 
   end
