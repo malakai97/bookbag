@@ -9,6 +9,21 @@ module Bookbag
     #   the created bags will be stored.
     def initialize(output_directory)
       @output_directory = File.expand_path(output_directory)
+      address = [
+        "University of Michigan Library",
+        "818 Hatcher Graduate Library South",
+        "913 S. University Avenue",
+        "Ann Arbor, MI 48109-1190"
+      ].join("\n")
+      @bag_info = {
+        'Source-Organization' => "HathiTrust Digital Library",
+        'Organization-Address' => address,
+        'Contact-Name' => "Bryan Hockey",
+        'Contact-Phone' => "(734)763-8948",
+        'Contact-Email' => "bhock@umich.edu",
+        'Bag-Group-Identifier' => "",
+        'Bag-Count' => ""
+      }
     end
 
 
@@ -51,6 +66,8 @@ module Bookbag
       bag.add_tag_file(File.join(Bookbag::Settings[:dpn_dir], Bookbag::Settings[:dpn_info][:name])) do |io|
         io.puts dpn_info_txt.to_s
       end
+
+      bag.write_bag_info(@bag_info)
 
       bag.manifest!
     end
