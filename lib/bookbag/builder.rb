@@ -1,4 +1,6 @@
 require "bagit"
+require "bookbag/settings"
+require "bookbag/dpn_info_txt"
 
 module Bookbag
   class Builder
@@ -44,16 +46,16 @@ module Bookbag
       bag = BagIt::Bag.new File.join(@output_directory, uuid)
       path = File.join File.expand_path(opts[:location]), "**", "*"
       Dir.glob(path).each do |filepath|
-        bag.add_file(filepath, File.basename(filepath))
+        bag.add_file(File.basename(filepath), filepath)
       end
 
       dpn_info_opts = {
         dpnObjectID: uuid,
         localName: "#{opts[:namespace]}.#{opts[:id]}",
-        ingestNodeName: Bookbag::Settings[:ingestNodeName][:default],
-        ingestNodeAddress: Bookbag::Settings[:ingestNodeAddress][:default],
-        ingestNodeContactName: Bookbag::Settings[:ingestNodeContactName][:default],
-        ingestNodeContactEmail: Bookbag::Settings[:ingestNodeContactEmail][:default],
+        ingestNodeName: Bookbag::Settings[:bag][:dpn_info][:ingestNodeName][:default],
+        ingestNodeAddress: Bookbag::Settings[:bag][:dpn_info][:ingestNodeAddress][:default],
+        ingestNodeContactName: Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactName][:default],
+        ingestNodeContactEmail: Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactEmail][:default],
         version: 1,
         firstVersionObjectID: uuid,
         bagTypeName: opts[:type].to_s.downcase,
@@ -61,9 +63,9 @@ module Bookbag
         rightsObjectIDs: opts[:rights]
       }
 
-      dpn_info_txt = DPNInfoTxt.new(dpn_info_opts)
+      dpn_info_txt = Bookbag::DPNInfoTxt.new(dpn_info_opts)
 
-      bag.add_tag_file(File.join(Bookbag::Settings[:dpn_dir], Bookbag::Settings[:dpn_info][:name])) do |io|
+      bag.add_tag_file(File.join(Bookbag::Settings[:bag][:dpn_dir], Bookbag::Settings[:bag][:dpn_info][:name])) do |io|
         io.puts dpn_info_txt.to_s
       end
 
