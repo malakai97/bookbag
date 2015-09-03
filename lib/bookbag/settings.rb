@@ -6,7 +6,7 @@ module Bookbag
       def config
         unless @config
           @config = ::Configliere::Param.new
-          @config.read File.join "./defaults.config.yml"
+          @config.read File.join File.expand_path('..', __FILE__), "defaults.config.yml"
           @config.resolve!
         end
         @config
