@@ -1,6 +1,6 @@
 require "bookbag/settings"
 
-module BookBag
+module Bookbag
   # A wrapper for the dpn-info.txt file within the bag.  Once created, it does not change with
   # changes made to the underlying txt file; in that case, a new Bag should be created.
   class DPNInfoTxt
@@ -19,9 +19,8 @@ module BookBag
     #   @option opts [Array<String>] :interpretiveObjectIDs
     #   @option opts [Array<String>] :rightsObjectIDs
     def initialize(opts)
-      @settings = DPN::Bagit::Settings.instance.config
-      @array_keys = @settings[:bag][:dpn_info][:arrays]
-      @non_array_keys = @settings[:bag][:dpn_info][:non_arrays]
+      @array_keys = Bookbag::Settings[:bag][:dpn_info][:arrays]
+      @non_array_keys = Bookbag::Settings[:bag][:dpn_info][:non_arrays]
       @errors = []
       @info = {}
       (@non_array_keys + @array_keys).each do |key|
@@ -37,12 +36,12 @@ module BookBag
       out = []
       @non_array_keys.each do |key|
         key = key.to_sym
-        name = @settings[:bag][:dpn_info][key][:name]
+        name = Bookbag::Settings[:bag][:dpn_info][key][:name]
         out << "#{name}: #{@info[key]}"
       end
       @array_keys.each do |key|
         key = key.to_sym
-        name = @settings[:bag][:dpn_info][key][:name]
+        name = Bookbag::Settings[:bag][:dpn_info][key][:name]
         @info[key].each do |value|
           out << "#{name}: #{value}"
         end
