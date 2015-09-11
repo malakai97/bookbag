@@ -9,8 +9,9 @@ module Bookbag
     # Create a new builder instance.
     # @param [String] output_directory The directory under which
     #   the created bags will be stored.
-    def initialize(output_directory)
-      @output_directory = File.expand_path(output_directory)
+    def initialize(options)
+      raise ArgumentError, "output_dir required" unless options[:output_dir]
+      @output_directory = File.expand_path(options[:output_dir])
       address = [
         "University of Michigan Library",
         "818 Hatcher Graduate Library South",
@@ -26,6 +27,10 @@ module Bookbag
         'Bag-Group-Identifier' => "",
         'Bag-Count' => ""
       }
+      @ingest_node_name = options[:ingest_node_name] || Bookbag::Settings[:bag][:dpn_info][:ingestNodeName][:default]
+      @ingest_node_address = options[:ingest_node_address] || Bookbag::Settings[:bag][:dpn_info][:ingestNodeAddress][:default]
+      @ingest_node_contact_name = options[:ingest_node_contact_name] || Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactName][:default]
+      @ingest_node_contact_email = options[:ingest_node_contact_email] || Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactEmail][:default]
     end
 
 
@@ -52,10 +57,10 @@ module Bookbag
       dpn_info_opts = {
         dpnObjectID: uuid,
         localName: "#{opts[:name]}",
-        ingestNodeName: Bookbag::Settings[:bag][:dpn_info][:ingestNodeName][:default],
-        ingestNodeAddress: Bookbag::Settings[:bag][:dpn_info][:ingestNodeAddress][:default],
-        ingestNodeContactName: Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactName][:default],
-        ingestNodeContactEmail: Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactEmail][:default],
+        ingestNodeName: @ingest_node_name,
+        ingestNodeAddress: @ingest_node_address,
+        ingestNodeContactName: @ingest_node_contact_name,
+        ingestNodeContactEmail: @ingest_node_contact_email,
         version: 1,
         firstVersionObjectID: uuid,
         bagTypeName: opts[:type].to_s.downcase,

@@ -50,6 +50,6 @@ if options[:type] == :data
 end
 
 
-builder = Bookbag::Builder.new(options[:output_dir])
+builder = Bookbag::Builder.new(options)
 builder.build(options)
 puts "Done!"
