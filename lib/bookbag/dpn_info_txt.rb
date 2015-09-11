@@ -46,8 +46,12 @@ module Bookbag
       @array_keys.each do |key|
         key = key.to_sym
         name = Bookbag::Settings[:bag][:dpn_info][key][:name]
-        @info[key].each do |value|
-          out << "#{name}: #{value}"
+        if @info[key].size > 0
+          @info[key].each do |value|
+            out << "#{name}: #{value}"
+          end
+        else
+          out << "#{name}:"
         end
       end
       return out.join("\n")
