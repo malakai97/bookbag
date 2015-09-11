@@ -31,8 +31,8 @@ module Bookbag
 
     # Create a bag from scratch yo'
     # @param [Hash] opts
-    # @option opts [String] :namespace HT namespace of the volume, e.g. mdp
-    # @option opts [String] :id HT id of the volume, not including namespace.
+    # @option opts [String] :name  <ht_namespace>.<ht_id>, or any name you wish.
+    #   This will be put into the local_id field.
     # @option opts [Symbol] :type One of :data, :rights, or :interpretive
     # @option opts [String] :location The location of the HT volume.  Generally,
     #   the directory that contains the zip.
@@ -51,7 +51,7 @@ module Bookbag
 
       dpn_info_opts = {
         dpnObjectID: uuid,
-        localName: "#{opts[:namespace]}.#{opts[:id]}",
+        localName: "#{opts[:name]}",
         ingestNodeName: Bookbag::Settings[:bag][:dpn_info][:ingestNodeName][:default],
         ingestNodeAddress: Bookbag::Settings[:bag][:dpn_info][:ingestNodeAddress][:default],
         ingestNodeContactName: Bookbag::Settings[:bag][:dpn_info][:ingestNodeContactName][:default],

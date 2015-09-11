@@ -7,9 +7,9 @@ require "optparse"
 options = {}
 opt_parser = OptionParser.new do |opt|
   opt.banner = "Usage: bookbag [OPTIONS]"
-  opt.on "-v", "--volume=NAMESPACE.ID",
-         "The volume's namespace and id." do |volume|
-    options[:namespace], options[:id] = volume.split(".")
+  opt.on "-n", "--name=NAME",
+         "The name or local id; HT volumes should be NAMESPACE.ID" do |name|
+    options[:name] = name
   end
   opt.on "-t", "--type=TYPE", [:data, :rights, :interpretive],
          "The type of bag to create (data, rights, interpretive)." do |type|
@@ -39,7 +39,7 @@ end
 
 opt_parser.parse!
 
-[:namespace, :id, :type, :location, :output_dir].each do |key|
+[:name, :type, :location, :output_dir].each do |key|
   raise ArgumentError, "#{key} is required" unless options[key]
 end
 
