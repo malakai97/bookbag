@@ -23,9 +23,13 @@ module Bookbag
       @non_array_keys = Bookbag::Settings[:bag][:dpn_info][:non_arrays]
       @errors = []
       @info = {}
-      (@non_array_keys + @array_keys).each do |key|
+      @non_array_keys.each do |key|
         key = key.to_sym
         @info[key] = opts[key]
+      end
+      @array_keys.each do |key|
+        key = key.to_sym
+        @info[key] = opts[key] || []
       end
     end
 
