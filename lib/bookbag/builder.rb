@@ -12,6 +12,7 @@ module Bookbag
     def initialize(options)
       raise ArgumentError, "output_dir required" unless options[:output_dir]
       @output_directory = File.expand_path(options[:output_dir])
+      Dir.mkdir @output_directory
       address = [
         "University of Michigan Library",
         "818 Hatcher Graduate Library South",
